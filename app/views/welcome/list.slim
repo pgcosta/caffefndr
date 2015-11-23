@@ -1,5 +1,48 @@
 doctype html
 html
-	- for item in @list
-		div class="list item"
-			p = item.name
+  div class="section list"
+    div class="row"
+      div class="four columns"
+        div class="container list"
+          table class="u-full-width"
+            thead
+              tr
+                th Name
+                th Popularity index
+            tbody
+            - for item in @list
+              tr
+                td = item.name
+      div class="eight columns"
+        div class="container map" 
+          div id="map"
+
+css:
+  table {
+    display: block;
+    height: 80vh;
+    overflow-y: scroll;
+  }
+
+  .map {
+    padding-top: 10vh;
+  }
+
+  #map {
+    width: 50vw;
+    height: 70vh;
+  }
+
+javascript:
+  var map;
+  postal_code_lat = parseFloat("#{@postal_code.lat}");
+  postal_code_lon = parseFloat("#{@postal_code.long}");
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: postal_code_lat, lng: postal_code_lon},
+      zoom: 15
+    });
+  }
+
+= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyCR62jOj4Przy7B7L_k7gq4qSq7_N-mROM&callback=initMap", :async => true, :defer => 'defer'

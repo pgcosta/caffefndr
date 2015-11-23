@@ -1,15 +1,37 @@
 doctype html
 html
-	head
-    title Caffè Finder
-    meta name="keywords" content="template language"
+  body
+    div class="section index"
+      div class="container"
+        div class="section-heading"
+          h3 Caffe Finder
+          p Search for a caffe near you
 
-    body
-    	h1 Caffè Finder
+        form
+          div class="row"
+            div class="six columns"
+              label for="postcode" Your postcode
+              input class="u-full-width input-text" type="text" placeholder="N1 6AA" name="postcode"
+            div class="six columns"
+              label for="sort" Sort by...
+              select class="u-full-width input-text" id="exampleRecipientInput"
+                option value="popularity" Popularity
+                option value="alphabetically" Alphabetically
+          input class="button-primary" type="submit" value="find a caffe"
 
-    #content
-      p Search for a caffès near you
-      form
-      	input type="text" name="postcode" placeholder="N1 6AA"
-      	p
-      	input type="submit"
+css:
+
+  .section {
+    text-align: center;
+    padding: 13rem 0 0;
+  }
+
+  body {
+    color: white;
+    background-image: url('https://s3.eu-central-1.amazonaws.com/pgcosta.com/files/background3.jpg');
+    background-position: center;
+  }
+
+  .input-text {
+    color: black;
+  }
