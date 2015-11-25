@@ -1,4 +1,5 @@
 doctype html
+= Gon::Base.render_data
 html
   div class="section list"
     div class="container"
@@ -12,11 +13,14 @@ html
             tbody
             - for item in @list
               tr
-                td = item.name
-                td 1
+                td
+                  - url = "http://www.foursquare.com/v/"+item.foursquare_id
+                  a target="_blank" href = url = item.name
+                td = item.popularity
         div class="seven columns"
           div class="container map-container"
             div class="map"
+            p style="position:relative;text-align:center;" hint: hover over the map marks to see more information
 
 css:
   table {
@@ -25,6 +29,17 @@ css:
     height: 80vh;
     overflow-y: scroll;
     table-layout: fixed;
+    margin: 30px;
+    background-color: #ffffff;
+    border: 1px black;
+    opacity:0.6;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+  }
+
+  tr {
+    color: black;
   }
 
   .list-container {
@@ -75,12 +90,42 @@ javascript:
   var map;
   postal_code_lat = parseFloat("#{@postal_code.lat}");
   postal_code_lon = parseFloat("#{@postal_code.long}");
+  markers = []
+  gon.points
+
+  // Adds a marker to the map and push to the array.
+  // array = ["name", "LL.LLLL", "-lll.llll"}
+  function addMarker(array) {
+    var marker = new google.maps.Marker({
+      position: {lat: parseFloat(array[1]),lng: parseFloat(array[2])},
+      title: array[0],
+      map: map
+    });
+    markers.push(marker);
+  }
+
+  // Sets the map on all markers in the array.
+  function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+
+  function loadAllMarkers() {
+    console.log("loadAllMarkers running...");
+    for (var i = 0; i < gon.points.length; i++) {
+      addMarker(gon.points[i]);
+    }
+  }
 
   function initMap() {
     map = new google.maps.Map(document.getElementsByClassName('map')[0], {
       center: {lat: postal_code_lat, lng: postal_code_lon},
       zoom: 15
     });
+
+    loadAllMarkers();
+    setMapOnAll(map);
   }
 
 = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyCR62jOj4Przy7B7L_k7gq4qSq7_N-mROM&callback=initMap", :async => true, :defer => 'defer'

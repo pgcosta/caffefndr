@@ -7,14 +7,14 @@ html
           h3 Caffe Finder
           p Search for a caffe near you
 
-        form
+        form id="welcome-form"
           div class="row"
             div class="six columns"
               label for="postcode" Your postcode
-              input class="u-full-width input-text" type="text" placeholder="N1 6AA" name="postcode"
+              input class="u-full-width input-text" type="text" placeholder="N1 6AA" name="postcode" form="welcome-form"
             div class="six columns"
               label for="sort" Sort by...
-              select class="u-full-width input-text" id="exampleRecipientInput"
+              select class="u-full-width input-text" name="sort_by" form="welcome-form"
                 option value="popularity" Popularity
                 option value="alphabetically" Alphabetically
           input class="button-primary" type="submit" value="find a caffe"
@@ -24,12 +24,6 @@ css:
   .section {
     text-align: center;
     padding: 13rem 0 0;
-  }
-
-  body {
-    color: white;
-    background-image: url('https://s3.eu-central-1.amazonaws.com/pgcosta.com/files/background3.jpg');
-    background-position: center;
   }
 
   .input-text {

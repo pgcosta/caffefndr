@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151122105642) do
+ActiveRecord::Schema.define(version: 20151124232912) do
 
   create_table "caffes", force: :cascade do |t|
     t.string   "foursquare_id",  limit: 255
@@ -23,6 +23,10 @@ ActiveRecord::Schema.define(version: 20151122105642) do
     t.integer  "users_count",    limit: 4
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.string   "lat",            limit: 255
+    t.string   "lon",            limit: 255
+    t.integer  "tip_count",      limit: 4
+    t.integer  "popularity",     limit: 4
   end
 
   create_table "caffes_postal_codes", id: false, force: :cascade do |t|
@@ -34,11 +38,13 @@ ActiveRecord::Schema.define(version: 20151122105642) do
   add_index "caffes_postal_codes", ["postal_code_id"], name: "index_caffes_postal_codes_on_postal_code_id", using: :btree
 
   create_table "postal_codes", force: :cascade do |t|
-    t.string   "lat",         limit: 255
-    t.string   "long",        limit: 255
-    t.string   "postal_code", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "lat",                limit: 255
+    t.string   "long",               limit: 255
+    t.string   "postal_code",        limit: 255
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "searches_count",     limit: 4
+    t.datetime "foursquare_timeout"
   end
 
 end

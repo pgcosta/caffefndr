@@ -10,7 +10,6 @@ class PostCodeService
 		uri = URI.parse(url_with_post_code)
 		# Shortcut
 		response = Net::HTTP.get_response(uri)
-
 		@post_code_data = JSON.parse(response.body)
 	end
 
@@ -19,6 +18,12 @@ class PostCodeService
 	def get_postal_code_object
 		postal_code = PostalCode.find_by_postal_code(@post_code_data["result"]["postcode"])
 		postal_code ||= create_new_postal_code
+		# if the postal code info is older than 1 day, update it
+		if postal_code.foursquare_timeout > Time.now - 1.days
+			postal_code.caffes = get_caffes_array
+			postal_code.update_attributes foursquare_timeout: Time.now
+		end
+		postal_code.update_attributes searches_count: (postal_code.searches_count+1)
 		postal_code
 	end
 
@@ -35,7 +40,9 @@ class PostCodeService
 		postal_code = PostalCode.create!(
 			lat: @post_code_data["result"]["latitude"].to_s,
     	long: @post_code_data["result"]["longitude"].to_s,
-      postal_code: @post_code_data["result"]["postcode"])
+      postal_code: @post_code_data["result"]["postcode"],
+      searches_count: 0,
+      foursquare_timeout: Time.now)
 
 		postal_code.caffes = get_caffes_array
 		postal_code
