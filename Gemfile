@@ -27,6 +27,8 @@ gem 'foursquare2'
 gem 'mysql2'
 # to pass data from rails to js
 gem 'gon'
+# get notified by email if something breaks
+gem 'exception_notification'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -43,7 +45,9 @@ group :development, :test do
 end
 
 group :test do
-	gem 'rspec'
+	gem 'rspec-rails', '~> 3.0'
+  gem 'factory_girl_rails'
+  gem 'faker'
 end
 
 group :development do
