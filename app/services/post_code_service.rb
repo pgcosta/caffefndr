@@ -16,8 +16,7 @@ class PostCodeService
 	# Returns a PostalCode object
 	#  either get's it from the database or creates a new one
 	def get_postal_code_object
-		postal_code = PostalCode.find_by_postal_code(@post_code_data["result"]["postcode"])
-		postal_code ||= create_new_postal_code
+		postal_code = get_postal_code
 		# if the postal code info is older than 1 day, update it
 		if postal_code.foursquare_timeout > Time.now - 1.days
 			postal_code.caffes = get_caffes_array
@@ -32,6 +31,12 @@ class PostCodeService
 	end
 
 	private
+
+	def get_postal_code
+		postal_code = PostalCode.find_by_postal_code(@post_code_data["result"]["postcode"])
+		postal_code ||= create_new_postal_code
+		postal_code
+	end
 
 	# Create a PostalCode object from with the information got from:
 	#  1. the postcodes API
