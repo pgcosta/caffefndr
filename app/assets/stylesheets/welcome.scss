@@ -19,3 +19,58 @@ body {
     background-color: rgba(0,0,0,.5);
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
+
+
+table {
+  display: block;
+  width: 100%;
+  height: 80vh;
+  overflow-y: scroll;
+  table-layout: fixed;
+  margin: 30px;
+  background-color: #ffffff;
+  border: 1px black;
+  opacity:0.6;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+tr {
+  color: black;
+}
+
+.list-container {
+  padding-top: 5vh 0 0 0;
+  background-color: red;
+}
+
+.map {
+  margin: 2% 2% 2% 2%;
+  height: 50vh;
+  width: 70vw;
+}
+
+@media screen and (min-width: 1000px) {
+  .map {
+    margin: 15% 5% 15% 0;
+    height: 70vh;
+    width: 35vw;
+  }
+}
+
+.five.columns {
+  width: 100%;
+  margin-left: 0px;
+  text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .five.columns {
+    width: 39.3%;
+  }
+}
+
+.hover {
+  background: #ddd;
+}

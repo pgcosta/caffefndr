@@ -9,6 +9,11 @@ class Caffe < ActiveRecord::Base
 	def self.build_from_hashie hashie
 		caffe = Caffe.find_by_foursquare_id hashie.id
 		caffe ||= Caffe.new
+
+    # ensure these have proper values
+    hashie.stats.checkinsCount ||= 0
+    hashie.stats.usersCount ||= 0
+    hashie.stats.tipCount ||= 0
     
     caffe.update_attributes!(
 			name: hashie.name,
@@ -17,10 +22,10 @@ class Caffe < ActiveRecord::Base
       city: hashie.location.city,
       checkins_count: hashie.stats.checkinsCount,
       users_count: hashie.stats.usersCount,
+      tip_count: hashie.stats.tipCount,
       foursquare_id: hashie.id,
       lat: hashie.location.lat,
-      lon: hashie.location.lng,
-      tip_count: hashie.stats.tipCount
+      lon: hashie.location.lng
 		)
     caffe
 	end
@@ -32,7 +37,7 @@ class Caffe < ActiveRecord::Base
     # does the caffe has a lot of returning customers?
     popularity = 
     if users_count > 30
-      ratio = min(checkins_count,users_count)/max(checkins_count,users_count).to_f
+      ratio = [checkins_count,users_count].min/[checkins_count,users_count].max.to_f
       100*(ratio)
     else
       10
@@ -47,13 +52,5 @@ class Caffe < ActiveRecord::Base
     end
     
     self.popularity = popularity > 100 ? 100 : popularity.to_i
-  end
-
-  def max(a,b)
-    a>b ? a : b
-  end
-
-  def min(a,b)
-    a<b ? a : b
   end
 end

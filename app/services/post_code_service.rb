@@ -41,7 +41,6 @@ class PostCodeService
 			lat: @post_code_data["result"]["latitude"].to_s,
     	long: @post_code_data["result"]["longitude"].to_s,
       postal_code: @post_code_data["result"]["postcode"],
-      searches_count: 0,
       foursquare_timeout: Time.now)
 
 		postal_code.caffes = get_caffes_array
