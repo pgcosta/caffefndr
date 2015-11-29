@@ -17,3 +17,7 @@
 /tmp
 .DS_Store
 .byebug_history
+
+# Ignore files that have to be configured in production
+config/database.yml
+config/foursquare.yml
