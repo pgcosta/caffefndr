@@ -1,28 +1,69 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Requirements
+● ruby 2.2.3
+● rails 4.2.5
 
-Things you may want to cover:
+== Main workflow:
+The application receives a postal code.
 
-* Ruby version
+The application uses this API (http://postcodes.io/) to check the validity and geographic
+location of the postal code.
 
-* System dependencies
+Then the app queries the foursquare API for a list of caffes, using the latitude and longitude
+got from the postal codes API.
 
-* Configuration
+The result information is then listed for the user.
 
-* Database creation
+Why use the postcodes public API?
+The Foursquare API to search for venues, only works with one of the two:
 
-* Database initialization
+; an address (using the parameter near)
+; a geographic location (latitude and longitude)
 
-* How to run the test suite
+So I used the former. To get the latitude and longitude, given a postal code, I used the
+postcodes API.
 
-* Services (job queues, cache servers, search engines, etc.)
+== Design decisions:
 
-* Deployment instructions
+=== Code organization:
+I try to modularize and separate the code as most as I can. To avoid long controllers I use
+services. It is just a folder containing all the logic needed for each controller.
 
-* ...
+== Database:
+There are two models: Caffe and PostalCode.
 
+# A PostalCode can have many caffes, and a caffe can have many PostalCodes as well.
+The reason for this is the following: in foursquare, we list the caffes that happen to be in x
+miles radius from a postal code. Now a Caffe could be in the intersection between two postal
+code's, thus belonging to both.
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+# Caffe: store in database, timeout
+
+The caffes are saved to the database, once retrieved from foursquare.
+
+After getting a postal code the public postal codes API, one of three things can happen:
+; A new postal code is created, and the foursquare API is queried for the caffes list
+; The postal code is already in the database, and I load it, as well as the related caffes
+; The postal code is already on the database, but it’s an old record (more than 1 day old), so
+
+I update it with what I get from foursquare
+
+Note: A good optimization to the application would be to cache the results to be served,
+using redis.
+
+== Frontend
+I used a little frontend framework for creating responsive pages called skeleton. Also used
+the gmaps open javascript api. I’m not a frontend expert, so the UX could be improved a lot.
+
+== Testing and error handling
+
+For testing I used Rspec, along with FactoryGirl and Faker.
+
+For error awareness I implemented exception notifier, to send me an email each time an
+exception is raised.
+
+== Deployment
+The solution is on an EC2 machine. The machine uses nginx as the web server, and unicorn
+as the application server. I haven’t implemented automated deployment for the app. I just
+clone it from a private Bitbucket repository.
