@@ -1,8 +1,8 @@
 == README
 
 Requirements
-● ruby 2.2.3
-● rails 4.2.5
+# ruby 2.2.3
+# rails 4.2.5
 
 == Main workflow:
 The application receives a postal code.
@@ -18,8 +18,8 @@ The result information is then listed for the user.
 Why use the postcodes public API?
 The Foursquare API to search for venues, only works with one of the two:
 
-; an address (using the parameter near)
-; a geographic location (latitude and longitude)
+* an address (using the parameter near)
+* a geographic location (latitude and longitude)
 
 So I used the former. To get the latitude and longitude, given a postal code, I used the
 postcodes API.
@@ -43,9 +43,9 @@ code's, thus belonging to both.
 The caffes are saved to the database, once retrieved from foursquare.
 
 After getting a postal code the public postal codes API, one of three things can happen:
-; A new postal code is created, and the foursquare API is queried for the caffes list
-; The postal code is already in the database, and I load it, as well as the related caffes
-; The postal code is already on the database, but it’s an old record (more than 1 day old), so
+* A new postal code is created, and the foursquare API is queried for the caffes list
+* The postal code is already in the database, and I load it, as well as the related caffes
+* The postal code is already on the database, but it’s an old record (more than 1 day old), so
 
 I update it with what I get from foursquare
 
