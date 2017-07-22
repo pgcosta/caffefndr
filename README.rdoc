@@ -1,8 +1,35 @@
 == README
 
-Requirements
-# ruby 2.2.3
-# rails 4.2.5
+This is a solution for a coding challenge for appearhere.com!
+
+Sadly it was never reviewed, even after a reminder email. Their CTO at the time simply went 'radio silent'.
+
+== Probem
+
+=== As a user 1
+
+I would like to search for coffee shops near <Postcode>
+So that I can satisfy my caffeine needs
+
+Examples:
+| Postcodes |
+| N1 6AA |
+| E2 8RS |
+| LA9 7RL |
+
+=== As a user 2 
+I would like to see the results sorted by popularity
+So that I know what’s the best coffee shop to go to
+
+=== As a user 3
+I would like to know when there are no results
+So that I can search for a different postcode
+
+= Solution
+
+== Requirements
+* ruby 2.2.3
+* rails 4.2.5
 
 == Main workflow:
 The application receives a postal code.
